@@ -27,7 +27,7 @@ function App() {
   }
   const onHandleEdit = (data)  =>{
     setUsers(
-      ...users, users.filter((user) =>  (user.id === data.id && (user = data)))
+      ...users, users.filter((user) =>  (user.id === data.id ? (user = data): user))
     );
   }
   return (

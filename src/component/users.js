@@ -35,8 +35,7 @@ export default function Users(props){
              <div className="album py-5 bg-light">
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-           {props.users && props.users.map((user, index) => {
-             return(
+           {props.users && props.users.map((user, index) => (
               <div className="col" key={index}>
               <div className="card shadow-sm">
                 <div className="bd-placeholder-img card-img-top" width="100%" height={225}><img src={user.avt} alt="" width="100%"  height="100%"/></div>
@@ -51,8 +50,7 @@ export default function Users(props){
                 </div>
               </div>
             </div>
-             )
-           })}
+             ) )}
           </div>
         </div>
       </div>
