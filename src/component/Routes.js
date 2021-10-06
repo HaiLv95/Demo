@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { lazy } from "react";
 import AddUser from "./addUser";
 import Home from "./home";
 import NavBar from "./navbar";

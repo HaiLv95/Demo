@@ -2,6 +2,7 @@ import "../styles/addUser.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { add, get, update } from "../api/call-api";
 export default function AddUser(props) {
   const history = useHistory();
   const [userdata, setUserdata] = useState({});
@@ -18,10 +19,12 @@ export default function AddUser(props) {
   useEffect(() => {
     if (id != undefined) {
       try {
-        // call dữ liệu từ api => chuyển dữ liệu sang duôi ".json" => truyền dữ liệu vào user
-        fetch("https://6156c5bce039a0001725abbf.mockapi.io/users/" + id)
-          .then(response => response.json())
-          .then(data => setUserdata(data));
+        // call dữ liệu từ api để edit=> chuyển dữ liệu sang duôi ".json" => truyền dữ liệu vào user
+        // fetch("https://6156c5bce039a0001725abbf.mockapi.io/users/" + id)
+        //   .then(response => response.json())
+        //   .then(data => setUserdata(data));
+        //call api bằng axios load user đã chọn
+        get(id).then(response => setUserdata(response.data));
       } catch (error) {
         console.log(error);
       }
@@ -29,22 +32,26 @@ export default function AddUser(props) {
   }, []);
   const onSubmit = async user => {
     if (id != undefined) {
+      //vì dữ liệu lấy từ form là 1 obj nhưng không có trường id nên phải gán id cho obj để cập nhật
+      user.id = id;
       try {
         // sử dụng hàm async  để chờ  call api hoàn thành
-        const response = await fetch(
-          "https://6156c5bce039a0001725abbf.mockapi.io/users/" + id,
-          {
-            method: "PUT", // or 'PUT'
-            headers: {
-              "Content-Type": "application/json",
-            },
-            //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
-            body: JSON.stringify(user),
-          }
-        );
+        // const response = await fetch(
+        //   "https://6156c5bce039a0001725abbf.mockapi.io/users/" + id,
+        //   {
+        //     method: "PUT", // or 'PUT'
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
+        //     body: JSON.stringify(user),
+        //   }
+        // );
         //chờ sau khi post dữ liệu thành công sẽ trả về data
-        const data = await response.json();
-        props.onEdit(data);
+        // const data = await response.json();
+        // props.onEdit(data);
+        //cập nhật dữ liệu
+        await update(user).then(response => props.onEdit(response.data));
         history.push("/users");
       } catch (error) {
         console.log(error);
@@ -52,20 +59,22 @@ export default function AddUser(props) {
     } else {
       try {
         // sử dụng hàm async  để chờ  call api hoàn thành
-        const response = await fetch(
-          "https://6156c5bce039a0001725abbf.mockapi.io/users",
-          {
-            method: "POST", // or 'PUT'
-            headers: {
-              "Content-Type": "application/json",
-            },
-            //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
-            body: JSON.stringify(user),
-          }
-        );
-        //chờ sau khi post dữ liệu thành công sẽ trả về data
-        const dataEdit = await response.json();
-        props.onAdd(dataEdit);
+        // const response = await fetch(
+        //   "https://6156c5bce039a0001725abbf.mockapi.io/users",
+        //   {
+        //     method: "POST", // or 'PUT'
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
+        //     body: JSON.stringify(user),
+        //   }
+        // );
+        // //chờ sau khi post dữ liệu thành công sẽ trả về data
+        // const dataEdit = await response.json();
+        // props.onAdd(dataEdit);
+        //sử dụng axios để add user
+         await add(user).then(response => props.onAdd(response.data));
         history.push("/users");
       } catch (error) {
         console.log(error);

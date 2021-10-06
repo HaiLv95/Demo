@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
 import Routes from './component/Routes';
+import { getAll } from './api/call-api';
 
 function App() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     try {
       // call dữ liệu từ api => chuyển dữ liệu sang duôi ".json" => truyền dữ liệu vào user
-       fetch('https://6156c5bce039a0001725abbf.mockapi.io/users')
-      .then(response => response.json())
-      .then(data => setUsers(data));
+      //  fetch('https://6156c5bce039a0001725abbf.mockapi.io/users')
+      // .then(response => response.json())
+      // .then(data => setUsers(data));
+      //cal api bằng axios
+      getAll().then(response => setUsers(response.data));
     } catch (error) {
       console.log(error);
     }

@@ -1,4 +1,5 @@
 import { Link, useHistory } from "react-router-dom";
+import { remove } from "../api/call-api";
 
 import "../styles/users.css";
 export default function Users(props) {
@@ -6,20 +7,22 @@ export default function Users(props) {
   const onDelete = async id => {
     try {
       // sử dụng hàm async  call api
-      const response = await fetch(
-        "https://6156c5bce039a0001725abbf.mockapi.io/users/" + id,
-        {
-          method: "Delete", // or 'PUT'
-          headers: {
-            "Content-Type": "application/json",
-          },
-          //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
-          body: null,
-        }
-      );
+      // const response = await fetch(
+      //   "https://6156c5bce039a0001725abbf.mockapi.io/users/" + id,
+      //   {
+      //     method: "Delete", // or 'PUT'
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     //chuyển đổi dữ liệu sang String -> post dữ liệu lên server
+      //     body: null,
+      //   }
+      // );
       //chờ sau khi post dữ liệu thành công sẽ trả về data
-      const data = await response.json();
-      props.onDelete(data.id);
+      // const data = await response.json();
+      // props.onDelete(data.id);
+      //call api bằng aixos
+      await remove(id).then(response => props.onDelete(response.data.id))
       history.push("/users");
     } catch (error) {
       console.log(error);
