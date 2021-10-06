@@ -26,9 +26,8 @@ function App() {
     setUsers(rsDelete);
   }
   const onHandleEdit = (data)  =>{
-    setUsers(
-      ...users, users.filter((user) =>  (user.id === data.id ? (user = data): user))
-    );
+   const newUsers = users.map((user) => user.id === data.id ? data : user);
+    setUsers(newUsers);
   }
   return (
     <div className="App">
